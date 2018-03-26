@@ -59,7 +59,6 @@ class Parameters(models.Model):
             self.strength, self.agility, self.defense, self.durability, self.luck
         )
 
-
 class Character(models.Model):
     nickname = models.CharField(
         verbose_name=_('Nickname'),
@@ -129,6 +128,7 @@ class Character(models.Model):
         blank=True, null=True
     )
 
+
     def __str__(self):
         return 'id: {}. {} level: {} HP:{} AP:{}'.format(
             self.id, self.nickname, self.level, self.health, self.action_points
@@ -139,3 +139,38 @@ class Character(models.Model):
         self.save()
 
         return self.status
+
+
+    def add_gold(self,amount: int):
+        self.gold += amount
+        self.save()
+
+        return self.gold
+
+    def remove_gold(self,amount: int):
+        if amount <= self.gold:
+            self.gold -= amount
+            self.save()
+            return self.gold
+        return None
+
+    def experience_per_level(self):
+        """exp needed for next level"""
+        #for low level characters we need more smooth exp grind IMO
+        if self.level < 10:
+            exp_for_level = 4 + self.level * self.level
+            return exp_for_level
+        #for higher level characters
+        exp_for_level = self.level * self.level
+        return exp_for_level
+
+    def add_exp(self,amount: int):
+        self.experience_points += amount
+
+        #Check if character can reach next level
+        if self.experience_points >= self.experience_per_level():
+            self.level += 1
+        return self.experience_points
+
+
+
