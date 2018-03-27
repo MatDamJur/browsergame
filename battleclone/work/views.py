@@ -1,7 +1,9 @@
 from django.views.generic import FormView, DetailView
+from django.contrib.auth.decorators import login_required
 from .forms import WorkModelForm
 from battleclone.account.models import UserProfile
 from .models import Work
+from .managers.work_manager import WorkManager
 
 
 class WorkView(FormView):
@@ -35,11 +37,26 @@ class WorkView(FormView):
 
             character.update_status('WORK')
 
+            print('dasdasdas')
+
         return super().post(request, *args, **kwargs)
 
 
+@login_required
 def finish_work(request):
-    pass
+    character = UserProfile.objects.get(user=request.user).character
+    # character.update_status('FREE')
+
+    work_object = Work.objects.filter(character=character).latest('started')
+    work_manager = WorkManager(work_object)
+
+    reward = work_manager.get_reward()
+    print('reward', reward)
+
+    return WorkView.as_view()(request)
+
+
+
 
 
 # TODO: login required

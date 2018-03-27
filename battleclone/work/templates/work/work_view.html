@@ -17,11 +17,19 @@
     </form>
     {% elif object.character.status == 'WORK' %}
         <h2 style="color: white;">Twoj rycerz jest w pracy, pozostały czas:</h2>
-        <h2 style="color: white;">{% time_remain work_object %}</h2>
+        <h2 id="timetime" style="color: white;">{% time_remain work_object %}</h2>
+        <input type="hidden" id="time-remain" value="{% time_remain work_object %}">
+{#        <a href="{% url 'character:CharacterView' %}" type="button" id="finish-button" hidden >Odbierz zapłatę</a>#}
+        <a href="{% url 'finish_work' %}" type="button" id="finish-button" hidden >Odbierz zapłatę</a>
+        <a href="#" type="button" id="stop-button">Przerwij pracę</a>
 
     {% else %}
         <h2 style="color: white;">Twoj rycerz robi teraz coś innego, nie moze isc do pracy</h2>
     {% endif %}
 
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'work/js/work.js' %}"></script>
 {% endblock %}
 
