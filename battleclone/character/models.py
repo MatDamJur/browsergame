@@ -141,36 +141,7 @@ class Character(models.Model):
         return self.status
 
 
-    def add_gold(self,amount: int):
-        self.gold += amount
-        self.save()
 
-        return self.gold
-
-    def remove_gold(self,amount: int):
-        if amount <= self.gold:
-            self.gold -= amount
-            self.save()
-            return self.gold
-        return None
-
-    def experience_per_level(self):
-        """exp needed for next level"""
-        #for low level characters we need more smooth exp grind IMO
-        if self.level < 10:
-            exp_for_level = 4 + self.level * self.level
-            return exp_for_level
-        #for higher level characters
-        exp_for_level = self.level * self.level
-        return exp_for_level
-
-    def add_exp(self,amount: int):
-        self.experience_points += amount
-
-        #Check if character can reach next level
-        if self.experience_points >= self.experience_per_level():
-            self.level += 1
-        return self.experience_points
 
 
 
