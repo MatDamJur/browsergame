@@ -59,7 +59,6 @@ class Parameters(models.Model):
             self.strength, self.agility, self.defense, self.durability, self.luck
         )
 
-
 class Character(models.Model):
     nickname = models.CharField(
         verbose_name=_('Nickname'),
@@ -129,6 +128,7 @@ class Character(models.Model):
         blank=True, null=True
     )
 
+
     def __str__(self):
         return 'id: {}. {} level: {} HP:{} AP:{}'.format(
             self.id, self.nickname, self.level, self.health, self.action_points
@@ -139,3 +139,9 @@ class Character(models.Model):
         self.save()
 
         return self.status
+
+
+
+
+
+
