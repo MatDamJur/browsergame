@@ -56,6 +56,11 @@ def finish_work(request):
     return WorkView.as_view()(request)
 
 
+@login_required
+def stop_work(request):
+    pass
+
+
 
 
 

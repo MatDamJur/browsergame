@@ -13,26 +13,33 @@ function count(timeArray) {
      var minutes = parseInt(timeArray[1]);
      var hours = parseInt(timeArray[0]);
 
-        setInterval(function() {
+     var timer = setInterval(function() {
             if(seconds === 0){
                 minutes--;
                 seconds = 60;
             }
 
             if(minutes === 0){
-                minutes = 59;
+                if(hours === 0)
+                    minutes = 0;
+                else
+                    minutes = 59
+
                 hours--;
             }
 
-            if(hours === 0) hours = 0;
+            if(hours <= 0) hours = 0;
             seconds--;
 
             timeRemain = [hours, minutes, seconds];
+            // change this ID NAME
             var timeRemainDiv = document.getElementById('timetime');
             timeRemainDiv.innerText = timeRemain.join(":");
 
             if(timeRemain.every(isZero)){
-                clearInterval(this);
+                console.log('is zero');
+                timeRemainDiv.innerText = 'Zakonczyles robote';
+                clearInterval(timer);
                 showFinishBtn();
                 hideStopBtn();
             }
