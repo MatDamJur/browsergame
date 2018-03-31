@@ -8,17 +8,20 @@
 
 {% block game_content %}
 
+
+    <h2 style="color:white;">GOWNO:{{ work }}</h2>
+
     <h1 style="text-align: center; color: white;">WORK</h1>
-    {% if object.character.status == 'FREE' %}
+    {% if user_profile.character.status == 'FREE' %}
     <form method="POST" id="work-form">{% csrf_token %}
         <h2 style="color: white; text-align: center;">Wybierz na ile godzin chcesz isc pracowac</h2>
         <p>{{ form.work_type }}</p>
         <button type="submit">Go to work</button>
     </form>
-    {% elif object.character.status == 'WORK' %}
+    {% elif user_profile.character.status == 'WORK' %}
         <h2 style="color: white;">Twoj rycerz jest w pracy, pozostały czas:</h2>
-        <h2 id="timetime" style="color: white;">{% time_remain work_object %}</h2>
-        <input type="hidden" id="time-remain" value="{% time_remain work_object %}">
+        <h2 id="timetime" style="color: white;">{% time_remain work %}</h2>
+        <input type="hidden" id="time-remain" value="{% time_remain work %}">
 {#        <a href="{% url 'character:CharacterView' %}" type="button" id="finish-button" hidden >Odbierz zapłatę</a>#}
         <a href="{% url 'finish_work' %}" type="button" id="finish-button" hidden >Odbierz zapłatę</a>
         <a href="#" type="button" id="stop-button">Przerwij pracę</a>

@@ -13,17 +13,13 @@ class WorkView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         user = self.request.user
-        context['object'] = UserProfile.objects.get(user=user)
-
         try:
-            context['work_object'] = (Work.objects
-                                          .filter(character__userprofile__user=user)
-                                          .latest('started'))
+            context['work'] = Work.objects_utils.work_latest(user)
         except Work.DoesNotExist as e:
-            print("Does not exist")
+            print('Work object does not exists', e)
 
-        # TODO: add return work object -> maybe add new inheritance ? formview with detail view
         return context
 
     def post(self, request, *args, **kwargs):
@@ -37,21 +33,21 @@ class WorkView(FormView):
 
             character.update_status('WORK')
 
-            print('dasdasdas')
-
         return super().post(request, *args, **kwargs)
 
 
 @login_required
 def finish_work(request):
     character = UserProfile.objects.get(user=request.user).character
-    # character.update_status('FREE')
+    character.update_status('FREE')
 
     work_object = Work.objects.filter(character=character).latest('started')
     work_manager = WorkManager(work_object)
 
     reward = work_manager.get_reward()
     print('reward', reward)
+
+    character.update_money(reward)
 
     return WorkView.as_view()(request)
 

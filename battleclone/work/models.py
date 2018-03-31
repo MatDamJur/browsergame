@@ -7,6 +7,13 @@ from django.utils import timezone
 HOURS = [(hour, '{} hours'.format(hour)) for hour in range(1, 25)]
 
 
+class WorkManager(models.Manager):
+    def work_latest(self, user):
+        return super().get_queryset().filter(
+            character__userprofile__user=user
+        ).latest('started')
+
+
 class Work(models.Model):
     character = models.ForeignKey(
         verbose_name=_('Character mission'),
@@ -34,6 +41,9 @@ class Work(models.Model):
         help_text=_('Started time'),
         default=timezone.now
     )
+
+    objects = models.Manager()
+    objects_utils = WorkManager()
 
     def __str__(self):
         return self.character.nickname

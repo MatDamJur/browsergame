@@ -9,31 +9,31 @@
         <div class="col-12 character-info">
             <div class="col-1 character-bar-info">
                 {% if object.avatar %}
-                <img src="{{ object.avatar.url }}" class="avatar">
+                <img src="{{ user_profile.avatar.url }}" class="avatar">
                 {% endif %}
             </div>
             <div class="col-1 character-bar-info">
-                    {{ object.character.nickname}}
+                    {{ user_profile.character.nickname}}
             </div>
             <div class="col-2 character-bar-info">
                 {% trans 'Level:' %}
-                {{ object.character.level}}
+                {{ user_profile.character.level}}
             </div>
             <div class="col-2 character-bar-info">
                 {% trans 'Gold:' %}
-                {{ object.character.gold }}
+                {{ user_profile.character.gold }}
             </div>
             <div class="col-2 character-bar-info">
                 {% trans 'Exp:' %}
-                {{ object.character.experience_points}}/100
+                {{ user_profile.character.experience_points}}/100
             </div>
                 <div class="col-2 character-bar-info">
                  {% trans 'Health:' %}
-                {{ object.character.health}}
+                {{ user_profile.character.health}}
             </div>
                 <div class="col-2 character-bar-info">
                  {% trans 'Points:' %}
-                {{ object.character.action_points}}
+                {{ user_profile.character.action_points}}
             </div>
         </div>
 

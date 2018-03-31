@@ -7,7 +7,9 @@ function isZero(timePart) {
 }
 
 function count(timeArray) {
+    timeArray= ['0', '1', '59'];
      var timeRemain = timeArray;
+     console.log(timeRemain);
      console.log('rrrr', timeRemain);
      var seconds = parseInt(timeArray[2]);
      var minutes = parseInt(timeArray[1]);
@@ -23,7 +25,7 @@ function count(timeArray) {
                 if(hours === 0)
                     minutes = 0;
                 else
-                    minutes = 59
+                    minutes = 59;
 
                 hours--;
             }
