@@ -8,10 +8,13 @@ HOURS = [(hour, '{} hours'.format(hour)) for hour in range(1, 25)]
 
 
 class WorkManager(models.Manager):
-    def work_latest(self, user):
+    def latest_by_user(self, user):
         return super().get_queryset().filter(
             character__userprofile__user=user
         ).latest('started')
+
+    def latest_by_character(self, character):
+        return super().get_queryset().filter(character=character).latest('started')
 
 
 class Work(models.Model):
