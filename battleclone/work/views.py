@@ -5,7 +5,7 @@ from battleclone.account.models import UserProfile
 from .models import Work
 from .managers.work_manager import WorkManager
 
-
+# TODO: TESTS TEsts tesTSTSTSTS
 def get_character(user):
     return UserProfile.objects.get(user=user).character
 
@@ -44,7 +44,7 @@ def finish_work(request):
     character = get_character(request.user)
     character.update_status('FREE')
 
-    # TODO: character.update_work()
+    # TODO: character.update_work() AND TESTS
     work_object = Work.objects_utils.latest_by_character(character)
     work_manager = WorkManager(work_object)
 
@@ -57,13 +57,5 @@ def finish_work(request):
 
 @login_required
 def stop_work(request):
-    pass
-
-
-
-
-
-# TODO: login required
-# TODO: work detail view
-# TODO: work list view
-# TODO: work table?
+    get_character(request.user).update_status('FREE')
+    return WorkView.as_view()(request)

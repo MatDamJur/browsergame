@@ -23,7 +23,7 @@
         <input type="hidden" id="time-remain" value="{% time_remain work %}">
 {#        <a href="{% url 'character:CharacterView' %}" type="button" id="finish-button" hidden >Odbierz zapłatę</a>#}
         <a href="{% url 'finish_work' %}" type="button" id="finish-button" hidden >Odbierz zapłatę</a>
-        <a href="#" type="button" id="stop-button">Przerwij pracę</a>
+        <a href="{% url 'stop_work' %}" type="button" id="stop-button">Przerwij pracę</a>
 
     {% else %}
         <h2 style="color: white;">Twoj rycerz robi teraz coś innego, nie moze isc do pracy</h2>
