@@ -6,11 +6,23 @@ function isZero(timePart) {
     return parseInt(timePart) === 0 || timePart === '00';
 }
 
+function parseDisplayedTime(timeRemainArray){
+    // add 0 to string if element is 1....9
+    var checkDoubleLength = function(element){
+        var newElement = element.toString();
+        if(newElement.length < 2){
+            return '0' + newElement;
+        }
+
+        return newElement;
+    };
+
+    return timeRemainArray.map(checkDoubleLength);
+}
+
 function count(timeArray) {
-    timeArray= ['0', '1', '59'];
+    // timeArray= ['0', '1', '59'];
      var timeRemain = timeArray;
-     console.log(timeRemain);
-     console.log('rrrr', timeRemain);
      var seconds = parseInt(timeArray[2]);
      var minutes = parseInt(timeArray[1]);
      var hours = parseInt(timeArray[0]);
@@ -36,7 +48,7 @@ function count(timeArray) {
             timeRemain = [hours, minutes, seconds];
             // change this ID NAME
             var timeRemainDiv = document.getElementById('timetime');
-            timeRemainDiv.innerText = timeRemain.join(":");
+            timeRemainDiv.innerText = parseDisplayedTime(timeRemain).join(":");
 
             if(timeRemain.every(isZero)){
                 console.log('is zero');
