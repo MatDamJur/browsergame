@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from .managers.gold import GoldManager
+from .managers.level import LevelManager
 
 
 BUSY_STATUS = (
@@ -140,7 +141,8 @@ class Character(models.Model):
 
         return self.status
 
-    # def update_work(self, ):
+    def update_exp(self, exp_points: int):
+        LevelManager(self).exp(exp_points)
 
     def update_money(self, value: int):
         gold_manager = GoldManager(self)

@@ -46,6 +46,7 @@ def finish_work(request):
     work_manager = WorkManager(work_object)
     reward = work_manager.get_reward()
     character.update_money(reward.money)
+    character.update_exp(reward.exp)
     character.update_status('FREE')
 
     return WorkView.as_view()(request)
