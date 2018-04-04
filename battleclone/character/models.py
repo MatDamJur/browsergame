@@ -140,6 +140,8 @@ class Character(models.Model):
 
         return self.status
 
+    # def update_work(self, ):
+
     def update_money(self, value: int):
         gold_manager = GoldManager(self)
         gold_manager.update(value)

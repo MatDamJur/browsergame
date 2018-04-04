@@ -5,7 +5,7 @@ from battleclone.account.models import UserProfile
 from .models import Work
 from .managers.work_manager import WorkManager
 
-# TODO: TESTS TEsts tesTSTSTSTS
+
 def get_character(user):
     return UserProfile.objects.get(user=user).character
 
@@ -42,15 +42,11 @@ class WorkView(FormView):
 @login_required
 def finish_work(request):
     character = get_character(request.user)
-    character.update_status('FREE')
-
-    # TODO: character.update_work() AND TESTS
     work_object = Work.objects_utils.latest_by_character(character)
     work_manager = WorkManager(work_object)
-
     reward = work_manager.get_reward()
-
     character.update_money(reward.money)
+    character.update_status('FREE')
 
     return WorkView.as_view()(request)
 
