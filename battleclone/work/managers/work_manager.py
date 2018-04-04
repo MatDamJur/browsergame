@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from collections import namedtuple
 
 MONEY_PER_HOUR = 20
-EXP_PER_HOUR = 5
+EXP_PER_HOUR = 1
 Reward = namedtuple('Reward', 'money exp')
 
 
@@ -28,7 +28,7 @@ class WorkManager:
     def get_reward(self):
         if self.is_finished():
             money = self.work.work_type * self.character.level * MONEY_PER_HOUR
-            exp = self.work.work_type * self.character.level * EXP_PER_HOUR
+            exp = self.work.work_type * EXP_PER_HOUR
             self.character.update_status('FREE')
             return Reward(money, exp)
 

@@ -19,7 +19,6 @@ def placeholder_func(attr):
 class CharacterView(TemplateView):
     template_name = "character.html"
 
-
     def get(self, request,attr=None, **kwargs):
         context = super().get_context_data(**kwargs)
         if attr:

@@ -4,6 +4,7 @@ from .forms import WorkModelForm
 from battleclone.account.models import UserProfile
 from .models import Work
 from .managers.work_manager import WorkManager
+from django.shortcuts import redirect
 
 
 def get_character(user):
@@ -49,10 +50,10 @@ def finish_work(request):
     character.update_exp(reward.exp)
     character.update_status('FREE')
 
-    return WorkView.as_view()(request)
+    return redirect('work')
 
 
 @login_required
 def stop_work(request):
     get_character(request.user).update_status('FREE')
-    return WorkView.as_view()(request)
+    return redirect('work')
