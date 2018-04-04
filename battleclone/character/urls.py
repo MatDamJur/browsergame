@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from .views import CharacterView
 urlpatterns = [
-    url(r'',CharacterView.as_view(),name='CharacterView'),
+    url(r'^$',CharacterView.as_view(),name='CharacterView'),
+    url(r'(?P<attr>[a-z]+)/$', CharacterView.as_view(), name='CharacterView'),
 ]
 

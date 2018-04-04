@@ -11,30 +11,31 @@
 {% block game_content %}
         <div class="col-4" id="character-attributes">
             <ul>
-                <li>
+                 <form method="post">
+                <li class='add-attr'>
                     Strength:
                     {{ character_attributes.strength }}
-                    <a href="#"> + </a>
+                <a href="{% url 'character:CharacterView' attr='strength' %}">+</a>
                 </li>
-                <li>
+                <li class='add-attr'>
                     Agility:
                     {{ character_attributes.agility }}
-                    <a href="#"> + </a>
+                 <a href="{% url 'character:CharacterView' attr='agility' %}">+</a>
                 </li>
-                <li>
+               <li class='add-attr'>
                     Defense:
                     {{ character_attributes.defense }}
-                     <a href="#"> + </a>
+                   <a href="{% url 'character:CharacterView' attr='defense' %}">+</a>
                 </li>
-                <li>
+                <li class='add-attr'>
                     Durability:
                     {{ character_attributes.durability }}
-                    <a href="#"> + </a>
+                    <a href="{% url 'character:CharacterView' attr='durability' %}">+</a>
                 </li>
-                <li>
+                <li class='add-attr'>
                     Luck:
                     {{ character_attributes.luck }}
-                    <a href="#"> + </a>
+                    <a href="{% url 'character:CharacterView' attr='luck' %}">+</a>
                 </li>
             </ul>
         </div>
@@ -43,4 +44,5 @@
                 <img src="{% static '/character/images/chess-knight.png' %}" class="character-image">
             </div>
         </div>
+    {% block javascript %}{% endblock %}
 {% endblock %}
