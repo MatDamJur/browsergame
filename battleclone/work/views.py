@@ -1,7 +1,13 @@
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView
+from django.contrib.auth.decorators import login_required
 from .forms import WorkModelForm
 from battleclone.account.models import UserProfile
 from .models import Work
+from .managers.work_manager import WorkManager
+
+
+def get_character(user):
+    return UserProfile.objects.get(user=user).character
 
 
 class WorkView(FormView):
@@ -11,23 +17,18 @@ class WorkView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
-        context['object'] = UserProfile.objects.get(user=user)
-
         try:
-            context['work_object'] = (Work.objects
-                                          .filter(character__userprofile__user=user)
-                                          .latest('started'))
+            context['work'] = Work.objects_utils.latest_by_user(self.request.user)
         except Work.DoesNotExist as e:
-            print("Does not exist")
+            # TODO: ADD LOGGING
+            print('Work object does not exists', e)
 
-        # TODO: add return work object -> maybe add new inheritance ? formview with detail view
         return context
 
     def post(self, request, *args, **kwargs):
         form = WorkModelForm(request.POST)
         if form.is_valid():
-            character = UserProfile.objects.get(user=self.request.user).character
+            character = get_character(self.request.user)
 
             instance = form.save(commit=False)
             instance.character = character
@@ -38,11 +39,20 @@ class WorkView(FormView):
         return super().post(request, *args, **kwargs)
 
 
+@login_required
 def finish_work(request):
-    pass
+    character = get_character(request.user)
+    work_object = Work.objects_utils.latest_by_character(character)
+    work_manager = WorkManager(work_object)
+    reward = work_manager.get_reward()
+    character.update_money(reward.money)
+    character.update_exp(reward.exp)
+    character.update_status('FREE')
+
+    return WorkView.as_view()(request)
 
 
-# TODO: login required
-# TODO: work detail view
-# TODO: work list view
-# TODO: work table?
+@login_required
+def stop_work(request):
+    get_character(request.user).update_status('FREE')
+    return WorkView.as_view()(request)

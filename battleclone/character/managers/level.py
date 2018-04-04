@@ -1,10 +1,8 @@
-from ..models import Character
-
 
 class LevelManager:
     """ Class handling character level state (level up, information about need exp)"""
 
-    def __init__(self, character: Character):
+    def __init__(self, character):
         self.character = character
 
     def next_level_value(self) -> int:
@@ -30,8 +28,8 @@ class LevelManager:
             return True
         return False
 
-
-
-
-
-
+    def exp(self, points: int):
+        """ Add exp point and try to level up"""
+        self.character.experience_points += points
+        self.character.save()
+        self.level_up()

@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from django.core.validators import MaxValueValidator, MinValueValidator
+from .managers.gold import GoldManager
+from .managers.level import LevelManager
 
 
 BUSY_STATUS = (
@@ -128,20 +130,20 @@ class Character(models.Model):
         blank=True, null=True
     )
 
-
     def __str__(self):
         return 'id: {}. {} level: {} HP:{} AP:{}'.format(
             self.id, self.nickname, self.level, self.health, self.action_points
         )
 
-    def update_status(self, new_status):
+    def update_status(self, new_status: str):
         self.status = new_status
         self.save()
 
         return self.status
 
+    def update_exp(self, exp_points: int):
+        LevelManager(self).exp(exp_points)
 
-
-
-
-
+    def update_money(self, value: int):
+        gold_manager = GoldManager(self)
+        gold_manager.update(value)
